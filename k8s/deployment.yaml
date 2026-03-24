@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tarefas-api
+  namespace: tarefas-ns
+spec:
+  # Quantas instâncias (Pods) queremos rodando
+  replicas: 2
+
+  # Define quais Pods este Deployment gerencia
+  selector:
+    matchLabels:
+      app: tarefas-api
+
+  # Estratégia de atualização: substitui Pods gradualmente
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0   # nunca derruba um Pod antes de subir o novo
+      maxSurge: 1         # pode ter 1 Pod extra durante o update
+
+  # Template do Pod que será criado
+  template:
+    metadata:
+      labels:
+        app: tarefas-api
+    spec:
+      containers:
+      - name: tarefas-api
+        # Imagem que subimos no Artifact Registry na Fase 3
+        image: southamerica-east1-docker.pkg.dev/reinaldo-lab/reinaldo-repo/tarefas-api:v1
+        ports:
+        - containerPort: 8080
+
+        # Limites de recursos (essencial em produção)
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"   # 100 millicores = 0.1 CPU
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+
+        # Health checks: K8s reinicia o Pod se falhar
+        livenessProbe:
+          httpGet:
+            path: /tarefas
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 15

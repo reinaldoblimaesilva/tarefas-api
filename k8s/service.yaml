@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tarefas-api-svc
+  namespace: tarefas-ns
+spec:
+  # Seleciona os Pods que este Service vai balancear
+  selector:
+    app: tarefas-api
+
+  ports:
+  - protocol: TCP
+    port: 80        # porta que outros serviços usam para chamar
+    targetPort: 8080  # porta que o container escuta
+
+  # ClusterIP = acessível apenas dentro do cluster (padrão)
+  type: ClusterIP

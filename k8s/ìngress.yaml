@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tarefas-ingress
+  namespace: tarefas-ns
+  annotations:
+    # Usa o Load Balancer HTTP nativo do GKE
+    kubernetes.io/ingress.class: "gce"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /tarefas
+        pathType: Prefix
+        backend:
+          service:
+            name: tarefas-api-svc
+            port:
+              number: 80

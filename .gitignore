@@ -1,0 +1,13 @@
+# .NET build outputs
+bin/
+obj/
+*.user
+.vs/
+
+# Docker
+.dockerignore
+
+# Secrets — NUNCA suba isso
+*.json.secret
+gcp-key.json
+service-account*.json
