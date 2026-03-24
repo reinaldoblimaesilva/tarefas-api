@@ -46,4 +46,4 @@ app.MapDelete("/tarefas/{id}", (int id) => {
 
 app.Run();
 
-record Tarefa(int Id, string Titulo, bool Concluida);
+public record Tarefa(int Id, string Titulo, bool Concluida);
