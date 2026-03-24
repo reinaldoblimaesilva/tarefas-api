@@ -10,8 +10,9 @@ app.MapScalarApiReference();
 
 var tarefas = new List<Tarefa>
 {
-    new(1, "Estudar Docker",     false),
-    new(2, "Estudar Kubernetes", false),
+    new(1, "Estudar Docker",     true),
+    new(2, "Estudar Kubernetes", true),
+    new(3, "CI/CD", true)
 };
 
 // Health check para o GCP Load Balancer
